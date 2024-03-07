@@ -20,6 +20,6 @@ public class Server_side2 {
         }
         din.close();
         s.close();
-        ss.close();
+        //ss.close();
     }
 }
