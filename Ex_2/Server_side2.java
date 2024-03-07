@@ -1,25 +1,55 @@
-import java.util.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
-public class Server_side2 {
+public class Server_side2{
     public static void main(String[] args)throws Exception{
-        ServerSocket ss = new ServerSocket(8080);
+        ServerSocket ss = new ServerSocket(5454);
         Socket s = ss.accept();
-        System.out.println("Connection is stable now");
-        DataInputStream din = new DataInputStream(s.getInputStream());
-        DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = "", str2 = "";
-        while(!str.equals("stop")){
-            str = din.readUTF();
-            System.out.println("Client says: "+str);
-            str2 = br.readLine();
-            dout.writeUTF(str2);
-            dout.flush();
-        }
-        din.close();
-        s.close();
-        ss.close();
+        System.out.println("Connection established!!");
+
+        Thread receiveThread = new Thread(() ->{
+            try{
+                DataInputStream din = new DataInputStream(s.getInputStream());
+                while(true){
+                    String str = din.readUTF();
+                    if(str.equalsIgnoreCase("bye")){
+                        System.out.println("Client has exited the chat!!");
+                        break;
+                    }
+                    System.out.println("Client msg : "+str);
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
+        });
+        
+        Thread sendThread = new Thread(() ->{
+           try {
+               DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+               Scanner sr = new Scanner(System.in);
+               while(true){
+                   String str = sr.nextLine();
+                   dos.writeUTF(str);
+                   dos.flush();
+                     if(str.equalsIgnoreCase("bye")){
+                          System.out.println("You have exited the chat!!");
+                          break;
+                     }
+               }
+           }
+           catch (Exception e){
+               e.printStackTrace();
+           }
+        });
+
+
+        receiveThread.start();
+        sendThread.start();
+
+
+
     }
 }
