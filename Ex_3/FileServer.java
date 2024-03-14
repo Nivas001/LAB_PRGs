@@ -4,18 +4,19 @@ import java.net.*;
 public class FileServer {
     public static void main(String[] args) {
         int port = 9999;
-        ServerSocket serverSocket = null;
-        Socket clientSocket = null;
+        ServerSocket ss = null;
+        Socket s = null;
         DataInputStream dis = null;
         FileOutputStream fos = null;
         DataOutputStream dos = null;
         try {
-            serverSocket = new ServerSocket(port);
+            //To open the incoming connections ss
+            ss = new ServerSocket(port);
             System.out.println("Socket created with port " + port);
             System.out.println("Waiting for a client to connect...");
-            clientSocket = serverSocket.accept();
-            System.out.println("Client connected: " +clientSocket.getInetAddress().getHostAddress());
-            dis = new DataInputStream(clientSocket.getInputStream());
+            s = ss.accept();
+            System.out.println("Client connected: " +s.getInetAddress().getHostAddress());
+            dis = new DataInputStream(s.getInputStream());
             String fileName = dis.readUTF();
             long fileSize = dis.readLong();
             fos = new FileOutputStream("_" + fileName);
@@ -38,10 +39,10 @@ public class FileServer {
                     fos.close();
                 if (dis != null)
                     dis.close();
-                if (clientSocket != null)
-                    clientSocket.close();
-                if (serverSocket != null)
-                    serverSocket.close();
+                if (s != null)
+                    s.close();
+                if (ss != null)
+                    ss.close();
             } catch (IOException e) {
                 System.out.println("Error closing resources: " +
                         e.getMessage());

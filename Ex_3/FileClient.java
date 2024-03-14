@@ -5,17 +5,18 @@ import java.net.*;
 import java.util.Scanner;
 public class FileClient {
     public static void main(String[] args) {
+
         String host = "localhost";
         int port = 9999;
         String fileName = null;
-        Socket clientSocket = null;
+        Socket s = null;
         DataOutputStream dos = null;
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         try {
-            clientSocket = new Socket(host, port);
+            s = new Socket(host, port);
             System.out.println("Connected successfully with " + host + " and port " + port);
-                    Scanner scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
             System.out.print("Enter File path: ");
             fileName = scanner.nextLine();
             File file = new File(fileName);
@@ -24,7 +25,7 @@ public class FileClient {
                 System.exit(1);
             }
             long fileSize = file.length();
-            dos = new DataOutputStream(clientSocket.getOutputStream());
+            dos = new DataOutputStream(s.getOutputStream());
             dos.writeUTF(file.getName());
             dos.writeLong(fileSize);
             fis = new FileInputStream(file);
@@ -49,8 +50,8 @@ public class FileClient {
                     dos.close();
                 if (bis != null)
                     bis.close();
-                if (clientSocket != null)
-                    clientSocket.close();
+                if (s != null)
+                    s.close();
             } catch (IOException e) {
                 System.out.println("Error closing resources: " +
                         e.getMessage());
