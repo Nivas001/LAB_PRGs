@@ -14,19 +14,20 @@ public class Server_side3 {
             s = ss.accept();
             System.out.println("Connection established!!");
             dis = new DataInputStream(s.getInputStream());
+            String filename = dis.readUTF();
+            int filesize = dis.readInt();
+
             dos = new DataOutputStream(s.getOutputStream());
-            fos = new FileOutputStream("server_file.txt");
+            fos = new FileOutputStream(filename);
             byte[] buffer = new byte[4096];
-            int filesize = 15123;
             int read = 0;
             int totalRead = 0;
-            int remaining = filesize;
-            while((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0){
+
+            while(totalRead < filesize && (read = dis.read(buffer, 0, Math.min(buffer.length, filesize - totalRead))) != -1){
                 totalRead += read;
-                remaining -= read;
-                System.out.println("read " + totalRead + " bytes.");
                 fos.write(buffer, 0, read);
             }
+
             System.out.println("File received successfully!!");
             dos.writeUTF("File received successfully!!");
         }
