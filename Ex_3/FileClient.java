@@ -7,7 +7,7 @@ public class FileClient {
     public static void main(String[] args) {
 
         String host = "localhost";
-        int port = 9999;
+        int port = 4444;
         String fileName = null;
         Socket s = null;
         DataOutputStream dos = null;
@@ -43,6 +43,7 @@ public class FileClient {
             System.exit(1);
         } catch (IOException e) {
             System.out.println("Error in file transfer: " + e.getMessage());
+            e.printStackTrace();
             System.exit(1);
         } finally {
             try {
@@ -53,8 +54,9 @@ public class FileClient {
                 if (s != null)
                     s.close();
             } catch (IOException e) {
-                System.out.println("Error closing resources: " +
-                        e.getMessage());
+                System.out.println("Error closing resources: " + e.getMessage());
+                e.printStackTrace();
+
             }
         }
     }
