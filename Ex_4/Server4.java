@@ -16,7 +16,7 @@ public class Server4 {
                 String str = new String(dp.getData(), 0, dp.getLength());
                 InetAddress senderAddress = dp.getAddress();
                 System.out.println("Client: " + str);
-                System.out.println("Client IP: " + senderAddress.getHostAddress() + "Port: " + dp.getPort());
+                System.out.println("Client IP: " + senderAddress.getHostAddress() + "Port: " + ds.getLocalPort());
 
                 if (str.equals("exit")) {
                     System.out.println("Server is closing...");
