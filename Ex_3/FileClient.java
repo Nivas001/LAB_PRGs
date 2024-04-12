@@ -7,7 +7,7 @@ public class FileClient {
     public static void main(String[] args) {
 
         String host = "localhost";
-        int port = 4444;
+        int port = 9999;
         String fileName = null;
         Socket s = null;
         DataOutputStream dos = null;
