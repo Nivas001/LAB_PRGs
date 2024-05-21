@@ -11,9 +11,13 @@ public class Server_side {
             //Get input from client so pass the socket object
             DataInputStream dis = new DataInputStream(s.getInputStream());
 
-            String word = (String)dis.readUTF();
-
-            System.out.println("The word or sentence : "+word);
+            while(true){
+                String str = (String)dis.readUTF();
+                System.out.println("The message from client is : "+str);
+                if(str.equals("exit")){
+                    break;
+                }
+            }
 
             sc.close();
 

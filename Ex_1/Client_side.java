@@ -8,10 +8,17 @@ public class Client_side {
          DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 
          Scanner sc = new Scanner(System.in);
-         System.out.print("What's your name? ");
 
-         String name = sc.next();
-         dos.writeUTF("Hello "+name+"!");
+         while (true){
+            System.out.print("Enter your msg : ");
+            String name = sc.next();
+
+            if(name.equals("exit")){
+               break;
+            }
+            dos.writeUTF(name);
+         }
+
          dos.flush();
          dos.close();
          s.close();
